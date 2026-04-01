@@ -7,9 +7,9 @@ A clean, dark-themed Android app to look up geolocation data for any IP address 
 ## 📱 Screenshots
 
 <p>
-  <img src="screenshots/home.png" width="250"/>
+  <img src="screenshots/Home%20Screen.png" width="250"/>
   &nbsp;&nbsp;&nbsp;
-  <img src="screenshots/result.png" width="250"/>
+  <img src="screenshots/Result%20Screen.png" width="250"/>
 </p>
 
 ---
