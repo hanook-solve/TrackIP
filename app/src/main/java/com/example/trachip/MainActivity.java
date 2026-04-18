@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 
+import com.example.trachip.History.HistoryFragment;
 import com.example.trachip.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen.installSplashScreen(this);
+
 
 
         super.onCreate(savedInstanceState);
@@ -53,6 +55,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        binding.btnHistory.setOnClickListener(view -> {
+            // Hide main content
+            binding.main.setVisibility(View.GONE);
+            // Show fragment container
+            binding.fragmentContainer.setVisibility(View.VISIBLE);
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainer, new HistoryFragment())
+                    .addToBackStack(null)
+                    .commit();
+
+
+        });
+
+
         binding.btnFind.setOnClickListener(v -> {
             String ip = binding.etIpAddress.getText().toString().trim();
 
@@ -66,6 +84,13 @@ public class MainActivity extends AppCompatActivity {
 
         observeViewModel();
 
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        // Show main content again when back is pressed
+        binding.main.setVisibility(View.VISIBLE);
+        binding.fragmentContainer.setVisibility(View.GONE);
     }
     private void observeViewModel() {
 
@@ -107,4 +132,6 @@ public class MainActivity extends AppCompatActivity {
         // Null out binding to avoid memory leaks
         binding = null;
     }
+
+
 }

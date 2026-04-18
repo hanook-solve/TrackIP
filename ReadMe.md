@@ -10,6 +10,8 @@ A clean, dark-themed Android app to look up geolocation data for any IP address 
   <img src="screenshots/Home%20Screen.png" width="250"/>
   &nbsp;&nbsp;&nbsp;
   <img src="screenshots/Result%20Screen.png" width="250"/>
+
+  <img src="screenshots/HistorySection.png" width="250">
 </p>
 
 ---
@@ -21,6 +23,8 @@ A clean, dark-themed Android app to look up geolocation data for any IP address 
 - ⚡ Fast response using ip-api.com
 - 🔄 Handles loading, success and error states
 - ✅ Input validation and user friendly error messages
+- 🕓 Search history saved locally using Room database
+- 🗑 Clear history with one tap
 - 📱 Tested on real device
 
 ---
@@ -32,6 +36,7 @@ A clean, dark-themed Android app to look up geolocation data for any IP address 
 | Language | Java |
 | Architecture | MVVM |
 | Network | Retrofit + Gson |
+| Local Storage | Room Database |
 | UI | ConstraintLayout + ViewBinding |
 | API | ip-api.com (free, no key needed) |
 
@@ -39,12 +44,20 @@ A clean, dark-themed Android app to look up geolocation data for any IP address 
 
 ## 📂 Project Structure
 ```
-app/src/main/java/com/example/trackip/
+app/src/main/java/com/example/trachip/
 ├── MainActivity.java
-├── IpViewModel.java
+├── IpViewModle.java
 ├── ApiClient.java
 ├── ApiService.java
-└── IpResponse.java
+├── IpResponse.java
+└── History/
+    ├── HistoryFragment.java
+    ├── HistoryViewModel.java
+    ├── HistoryAdapter.java
+    └── DB/
+        ├── HistoryModel.java
+        ├── HistoryDao.java
+        └── HistoryDB.java
 ```
 
 ---
@@ -82,5 +95,5 @@ Returns country, city, lat/lon and more.
 
 ## 👨‍💻 Author
 
-**Hanooq**  
+**Hanook**  
 [GitHub](https://github.com/hanook-solve/TrackIP.git)

@@ -1,20 +1,36 @@
 package com.example.trachip;
 
+import android.app.Application;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.room.Room;
+
+import com.example.trachip.History.DB.HistoryDB;
+import com.example.trachip.History.DB.HistoryDao;
+import com.example.trachip.History.DB.HistoryModel;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class IpViewModle extends ViewModel {
+public class IpViewModle extends AndroidViewModel {
+    public HistoryDB db;
     private final MutableLiveData<IpResponse> ipResult = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     // This creates an INSTANCE of ApiService
     private final ApiService apiService = ApiClient.getService();
+
+    public IpViewModle(@NonNull Application application) {
+        super(application);
+        db = HistoryDB.getInstance(application);
+
+    }
 
     //getter <LiveData>
 
@@ -28,8 +44,12 @@ public class IpViewModle extends ViewModel {
         return isLoading;
     }
 
+
+
     public void lookupIp(String ip) {
         isLoading.setValue(true);
+
+
 
         apiService.getIpInfo(ip).enqueue(new Callback<IpResponse>() {
 
@@ -42,6 +62,11 @@ public class IpViewModle extends ViewModel {
 
                     if ("success".equals(data.getStatus())) {
                         ipResult.setValue(data);
+                        new Thread(() -> {
+                            HistoryModel entity = toEntity(data);
+                            db.historyDao().insert(entity);
+                        }).start();
+
                     } else {
                         errorMessage.setValue("Invalid IP address. Please try again.");
                     }
@@ -61,7 +86,21 @@ public class IpViewModle extends ViewModel {
                     errorMessage.setValue("Something went wrong. Try again.");
                 }
             }
+
         });
+
     }
+
+    private HistoryModel toEntity(IpResponse data) {
+        return new HistoryModel(
+                data.getIp(),
+                data.getCountry(),
+                data.getCity(),
+                data.getLat(),
+                data.getLon(),
+                System.currentTimeMillis() // timestamp
+        );
+    }
+
 
 }

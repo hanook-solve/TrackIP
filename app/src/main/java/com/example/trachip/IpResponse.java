@@ -4,19 +4,19 @@ import com.google.gson.annotations.SerializedName;
 
 public class IpResponse {
     @SerializedName("query")
-    private String ip;
+    public String ip;
 
     @SerializedName("country")
-    private String country;
+    public String country;
 
     @SerializedName("city")
-    private String city;
+    public String city;
 
     @SerializedName("lat")
-    private double lat;
+    public double lat;
 
     @SerializedName("lon")
-    private double lon;
+    public double lon;
 
     @SerializedName("status")
     private String status;
